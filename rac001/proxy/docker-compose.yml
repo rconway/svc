@@ -28,7 +28,6 @@ services:
     volumes:
       - proxy_data:/data
       - proxy_tls:/etc/letsencrypt
-      - proxy_config:/app/config/production.json
 
 networks:
   racnet:
@@ -40,5 +39,3 @@ volumes:
     name: proxy_data
   proxy_tls:
     name: proxy_tls
-  proxy_config:
-    name: proxy_config
