@@ -1,0 +1,44 @@
+version: "3"
+services:
+  proxy:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    container_name: proxy
+
+    networks:
+      - racnet
+
+    ports:
+      # These ports are in format <host-port>:<container-port>
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
+      - '81:81' # Admin Web Port
+      # Add any other Stream port you want to expose
+      # - '21:21' # FTP
+
+    # Uncomment the next line if you uncomment anything in the section
+    # environment:
+      # Uncomment this if you want to change the location of 
+      # the SQLite DB file within the container
+      # DB_SQLITE_FILE: "/data/database.sqlite"
+
+      # Uncomment this if IPv6 is not enabled on your host
+      # DISABLE_IPV6: 'true'
+
+    volumes:
+      - proxy_data:/data
+      - proxy_tls:/etc/letsencrypt
+      - proxy_config:/app/config/production.json
+
+networks:
+  racnet:
+    name: racnet
+    external: true
+
+volumes:
+  proxy_data:
+    name: proxy_data
+  proxy_tls:
+    name: proxy_tls
+  proxy_config:
+    name: proxy_config
